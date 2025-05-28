@@ -10,4 +10,12 @@ export class ScheduleService {
   ): Promise<Schedule | null> {
     return this.scheduleRepo.findByWorkerId(worker_id, year, month)
   }
+
+  async getByWorkplaceId(
+    workplace_id: string,
+    year: number,
+    month: number
+  ): Promise<Schedule[] | null> {
+    return this.scheduleRepo.findByWorkplaceId(workplace_id, year, month)
+  }
 }

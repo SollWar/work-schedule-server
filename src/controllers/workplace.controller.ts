@@ -7,12 +7,16 @@ export class WorkplaceController {
 
   public getById: RequestHandler = async (req, res) => {
     try {
-      const { id } = req.body
-      const workplace = await this.workplaceService.getById(id)
-      if (workplace) {
-        res.json({ workplace })
+      const { id } = req.query
+      if (typeof id !== 'string') {
+        res.status(400).json({ error: 'Недостаточно параметров' })
       } else {
-        res.status(400).json({ error: 'Workplace не найден' })
+        const workplace = await this.workplaceService.getById(id)
+        if (workplace) {
+          res.json(workplace)
+        } else {
+          res.status(400).json({ error: 'Workplace не найден' })
+        }
       }
     } catch (err: any) {
       res.status(400).json({ error: err.message })
@@ -21,12 +25,16 @@ export class WorkplaceController {
 
   public getByWorkerId: RequestHandler = async (req, res) => {
     try {
-      const { worker_id } = req.body
-      const workplaces = await this.workplaceService.getByWorkerId(worker_id)
-      if (workplaces?.length !== 0) {
-        res.json({ workplaces })
+      const { worker_id } = req.query
+      if (typeof worker_id !== 'string') {
+        res.status(400).json({ error: 'Недостаточно параметров' })
       } else {
-        res.status(400).json({ error: 'Workplaces не найдены' })
+        const workplaces = await this.workplaceService.getByWorkerId(worker_id)
+        if (workplaces?.length !== 0) {
+          res.json(workplaces)
+        } else {
+          res.status(400).json({ error: 'Workplaces не найдены' })
+        }
       }
     } catch (err: any) {
       res.status(400).json({ error: err.message })

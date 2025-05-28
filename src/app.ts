@@ -8,6 +8,7 @@ import authRouter from './routes/auth.route.js'
 import workerRouter from './routes/worker.route.js'
 import workplaceRouter from './routes/workplace.route.js'
 import scheduleRouter from './routes/schedule.route.js'
+import mainRouter from './routes/main.route.js'
 
 const PORT = Number(process.env.PORT) || 3000
 const allowedOrigins = [corsEnv.clientOrigin]
@@ -16,14 +17,7 @@ export async function bootstrap() {
   const app = express()
   app.use(
     cors({
-      origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true)
-        } else {
-          console.log('CORS blocked for origin:', origin)
-          callback(new Error('Not allowed by CORS'))
-        }
-      },
+      origin: allowedOrigins as string[],
       credentials: true,
     })
   )
@@ -34,6 +28,7 @@ export async function bootstrap() {
   app.use('/api', workerRouter)
   app.use('/api', workplaceRouter)
   app.use('/api', scheduleRouter)
+  app.use('/api', mainRouter)
 
   const httpServer = http.createServer(app)
 

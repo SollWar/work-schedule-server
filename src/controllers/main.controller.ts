@@ -1,0 +1,39 @@
+import { RequestHandler } from 'express'
+import { WorkerService } from '../services/worker.services.js'
+import { WorkplaceService } from '../services/workplace.services.js'
+import { MainData } from '../models/main.model.js'
+
+export class MainController {
+  private workerService = new WorkerService()
+  private workplaceService = new WorkplaceService()
+
+  public getMainData: RequestHandler = async (req, res) => {
+    try {
+      const { telegram_id } = req.query
+      if (typeof telegram_id !== 'string') {
+        res.status(400).json({ error: 'Недостаточно параметров' })
+      } else {
+        const worker = await this.workerService.getByTelegramId(telegram_id)
+        if (worker && worker.access_id === 0) {
+          const workplaces = await this.workplaceService.getByWorkerId(
+            worker.id
+          )
+          if (workplaces) {
+            const mainData: MainData = {
+              user: worker,
+              availableWorkers: [worker],
+              availableWorkplaces: workplaces,
+            }
+            res.json(mainData)
+          } else {
+            res.status(400).json({ error: 'Workplaces не найдены' })
+          }
+        } else {
+          res.status(400).json({ error: 'Worker не найден' })
+        }
+      }
+    } catch (err: any) {
+      res.status(400).json({ error: err.message })
+    }
+  }
+}
