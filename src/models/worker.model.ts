@@ -3,4 +3,5 @@ export interface Worker {
   name: string
   color: string
   access_id: number
+  editable?: number
 }

@@ -24,7 +24,7 @@ export class WorkerRepository {
 
   async findByWorkplaceId(workplace_id: string): Promise<Worker[] | null> {
     const { rows } = await pool.query<Worker>(
-      `SELECT w.*
+      `SELECT w.*, ww.editable
       FROM workers w
       JOIN workers_workplaces ww ON w.id = ww.worker_id
       WHERE ww.workplace_id = $1`,

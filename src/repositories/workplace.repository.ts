@@ -12,7 +12,7 @@ export class WorkplaceRepository {
 
   async findByWorkerId(worker_id: string): Promise<Workplace[] | null> {
     const { rows } = await pool.query<Workplace>(
-      `SELECT w.*
+      `SELECT w.*, ww.editable
       FROM workplaces w
       JOIN workers_workplaces ww ON w.id = ww.workplace_id
       WHERE ww.worker_id = $1;`,
