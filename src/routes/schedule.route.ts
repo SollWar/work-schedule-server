@@ -7,5 +7,6 @@ const schedule = new ScheduleController()
 
 scheduleRouter.get('/schedule', schedule.getByWorkerId)
 scheduleRouter.get('/schedules', schedule.getByWorkplaceId)
+scheduleRouter.post('/up_schedule', schedule.updateSchedule)
 
 export default scheduleRouter

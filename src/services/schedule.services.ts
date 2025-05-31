@@ -18,4 +18,13 @@ export class ScheduleService {
   ): Promise<Schedule[] | null> {
     return this.scheduleRepo.findByWorkplaceId(workplace_id, year, month)
   }
+
+  async updateByWorkerId(
+    worker_id: string,
+    year: number,
+    month: number,
+    schedule: string
+  ): Promise<boolean> {
+    return this.scheduleRepo.updateByWorkerId(worker_id, year, month, schedule)
+  }
 }

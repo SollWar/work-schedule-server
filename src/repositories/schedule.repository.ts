@@ -16,6 +16,27 @@ export class ScheduleRepository {
     return rows[0] || null
   }
 
+  async updateByWorkerId(
+    worker_id: string,
+    year: number,
+    month: number,
+    schedule: string
+  ): Promise<boolean> {
+    try {
+      const { rows } = await pool.query<Schedule>(
+        `INSERT INTO workers_schedules (worker_id, year, month, schedule)
+         VALUES ($1, $2, $3, $4)
+         ON CONFLICT (worker_id, year, month) 
+         DO UPDATE SET schedule = EXCLUDED.schedule`,
+        [worker_id, year, month, schedule]
+      )
+      return true
+    } catch (error) {
+      console.error('Error in updateByWorkerId:', error)
+      return false
+    }
+  }
+
   async findByWorkplaceId(
     workplace_id: string,
     year: number,
