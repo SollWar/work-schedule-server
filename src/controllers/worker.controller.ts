@@ -41,6 +41,24 @@ export class WorkerController {
     }
   }
 
+  public getTelegramIdById: RequestHandler = async (req, res) => {
+    try {
+      const { id } = req.query
+      if (typeof id !== 'string') {
+        res.status(400).json({ error: 'Недостаточно параметров' })
+      } else {
+        const telegramIds = await this.workerService.findTelegramIdById(id)
+        if (telegramIds) {
+          res.json(telegramIds)
+        } else {
+          res.status(400).json({ error: 'Worker не найден' })
+        }
+      }
+    } catch (err: any) {
+      res.status(400).json({ error: err.message })
+    }
+  }
+
   public getByWorkplaceId: RequestHandler = async (req, res) => {
     try {
       const { workplace_id } = req.query

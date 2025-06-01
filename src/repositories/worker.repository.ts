@@ -1,5 +1,5 @@
 import { pool } from '../config/db.js'
-import { Worker } from '../models/worker.model.js'
+import { TelegramAuth, Worker } from '../models/worker.model.js'
 
 export class WorkerRepository {
   async findById(id: string): Promise<Worker | null> {
@@ -8,6 +8,65 @@ export class WorkerRepository {
       [id]
     )
     return rows[0] || null
+  }
+
+  async findTelegramIdById(id: string): Promise<TelegramAuth[] | null> {
+    const { rows } = await pool.query<TelegramAuth>(
+      `SELECT telegram_id
+      FROM workers_telegram_auth
+      WHERE worker_id = $1`,
+      [id]
+    )
+    return rows || null
+  }
+
+  async updateWorkerById(
+    id: string,
+    updates: {
+      name?: string
+      color?: string
+      access_id?: number
+    }
+  ): Promise<boolean> {
+    try {
+      const fieldsToUpdate = []
+      const values = []
+      let paramIndex = 1
+
+      if (updates.name !== undefined) {
+        fieldsToUpdate.push(`name = $${paramIndex}`)
+        values.push(updates.name)
+        paramIndex++
+      }
+      if (updates.color !== undefined) {
+        fieldsToUpdate.push(`color = $${paramIndex}`)
+        values.push(updates.color)
+        paramIndex++
+      }
+      if (updates.access_id !== undefined) {
+        fieldsToUpdate.push(`access_id = $${paramIndex}`)
+        values.push(updates.access_id)
+        paramIndex++
+      }
+
+      values.push(id)
+
+      if (fieldsToUpdate.length === 0) {
+        return false
+      }
+
+      const query = `
+        UPDATE workers
+        SET ${fieldsToUpdate.join(', ')}
+        WHERE id = $${paramIndex}
+      `
+
+      await pool.query(query, values)
+      return true
+    } catch (error) {
+      console.error('Error in updateWorkerById:', error)
+      return false
+    }
   }
 
   async findByTelegramId(telegram_id: string): Promise<Worker | null> {

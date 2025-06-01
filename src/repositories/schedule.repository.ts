@@ -23,7 +23,7 @@ export class ScheduleRepository {
     schedule: string
   ): Promise<boolean> {
     try {
-      const { rows } = await pool.query<Schedule>(
+      await pool.query(
         `INSERT INTO workers_schedules (worker_id, year, month, schedule)
          VALUES ($1, $2, $3, $4)
          ON CONFLICT (worker_id, year, month) 

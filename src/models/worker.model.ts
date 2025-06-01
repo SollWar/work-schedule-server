@@ -5,3 +5,7 @@ export interface Worker {
   access_id: number
   editable?: number
 }
+
+export interface TelegramAuth {
+  telegram_id: string
+}
