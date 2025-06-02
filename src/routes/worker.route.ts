@@ -5,6 +5,7 @@ const workerRouter: Router = express.Router()
 const worker = new WorkerController()
 
 workerRouter.get('/user', worker.getById)
+workerRouter.post('/user/update', worker.updateWorker)
 workerRouter.get('/users', worker.getByWorkplaceId)
 workerRouter.get('/telegram', worker.getTelegramIdById)
 

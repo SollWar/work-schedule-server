@@ -41,6 +41,32 @@ export class WorkerController {
     }
   }
 
+  // id: string,
+  //   updates: {
+  //     name?: string
+  //     color?: string
+  //     access_id?: number
+  //   }
+
+  public updateWorker: RequestHandler = async (req, res) => {
+    try {
+      const { id, name, color, access_id } = req.body
+      if (typeof id !== 'string') {
+        res.status(400).json({ error: 'Недостаточно параметров' })
+      } else {
+        const access_idNum = Number(access_id)
+        const result = await this.workerService.updateWorkerById(id, {
+          name,
+          color,
+          access_id: isNaN(access_idNum) ? undefined : access_idNum,
+        })
+        res.json(result)
+      }
+    } catch (err: any) {
+      res.status(400).json({ error: err.message })
+    }
+  }
+
   public getTelegramIdById: RequestHandler = async (req, res) => {
     try {
       const { id } = req.query

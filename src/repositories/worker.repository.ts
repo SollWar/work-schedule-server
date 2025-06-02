@@ -20,6 +20,21 @@ export class WorkerRepository {
     return rows || null
   }
 
+  async updateWorkerNameById(id: string, newName: string): Promise<boolean> {
+    try {
+      await pool.query(
+        `UPDATE workers
+        SET name = $1
+        WHERE id=$2;`,
+        [id, newName]
+      )
+      return true
+    } catch (error) {
+      console.error('Error in updateWorkerNameById:', error)
+      return false
+    }
+  }
+
   async updateWorkerById(
     id: string,
     updates: {

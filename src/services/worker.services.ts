@@ -24,8 +24,12 @@ export class WorkerService {
       access_id?: number
     }
   ): Promise<boolean> {
-    return this.updateWorkerById(id, updates)
+    return this.workerRepo.updateWorkerById(id, updates)
   }
+
+  // async updateWorkerNameById(id: string, newName: string): Promise<boolean> {
+  //   return th
+  // }
 
   async getByWorkplaceId(workplace_id: string): Promise<Worker[] | null> {
     return this.workerRepo.findByWorkplaceId(workplace_id)
