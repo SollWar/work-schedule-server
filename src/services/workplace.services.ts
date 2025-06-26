@@ -4,6 +4,10 @@ import { WorkplaceRepository } from '../repositories/workplace.repository.js'
 export class WorkplaceService {
   private workplaceRepo = new WorkplaceRepository()
 
+  async getAll(): Promise<Workplace[] | null> {
+    return this.workplaceRepo.getAll()
+  }
+
   async getById(id: string): Promise<Workplace | null> {
     return this.workplaceRepo.findById(id)
   }

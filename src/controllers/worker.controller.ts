@@ -1,9 +1,22 @@
 import { WorkerService } from '../services/worker.services.js'
-import { Worker } from '../models/worker.model.js'
 import { RequestHandler } from 'express'
+import { getSession } from '../config/session.js'
 
 export class WorkerController {
   private workerService = new WorkerService()
+
+  public getAllWorkers: RequestHandler = async (req, res) => {
+    try {
+      const workers = await this.workerService.getAll()
+      if (workers) {
+        res.json(workers)
+      } else {
+        res.status(400).json({ error: 'workers не найдены' })
+      }
+    } catch (err: any) {
+      res.status(400).json({ error: err.message })
+    }
+  }
 
   public getById: RequestHandler = async (req, res) => {
     try {
@@ -25,7 +38,9 @@ export class WorkerController {
 
   public getByTelegramId: RequestHandler = async (req, res) => {
     try {
-      const { telegram_id } = req.query
+      const session = await getSession(req, res)
+      //const { telegram_id } = req.query
+      const telegram_id = session.id
       if (typeof telegram_id !== 'string') {
         res.status(400).json({ error: 'Недостаточно параметров' })
       } else {

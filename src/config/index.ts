@@ -9,6 +9,7 @@ export const sessionEnv = {
   password: process.env.SESSION_PASSWORD,
   cookieName: process.env.SESSION_COOKIE_NAME,
   nodeEnv: process.env.NODE_ENV,
+  domain: process.env.DOMAIN,
 }
 
 export const dbEnv = {
@@ -17,6 +18,10 @@ export const dbEnv = {
   name: process.env.DB_NAME,
   password: process.env.DB_PASS,
   port: getEnvNumber('DB_PORT') || 5432,
+}
+
+export const telegramEnv = {
+  botToken: process.env.TELEGRAM_BOT_TOKEN,
 }
 
 function getEnvNumber(key: string | undefined): number | undefined {

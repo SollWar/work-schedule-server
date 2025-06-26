@@ -2,14 +2,17 @@ import { RequestHandler } from 'express'
 import { WorkerService } from '../services/worker.services.js'
 import { WorkplaceService } from '../services/workplace.services.js'
 import { MainData } from '../models/main.model.js'
+import { getSession } from '../config/session.js'
 
 export class MainController {
   private workerService = new WorkerService()
   private workplaceService = new WorkplaceService()
 
-  public getMainData: RequestHandler = async (req, res) => {
+  public getMainDataFromTelegramId: RequestHandler = async (req, res) => {
     try {
-      const { telegram_id } = req.query
+      const session = await getSession(req, res)
+      //const { telegram_id } = req.query
+      const telegram_id = session.id
       if (typeof telegram_id !== 'string') {
         res.status(400).json({ error: 'Недостаточно параметров' })
       } else {

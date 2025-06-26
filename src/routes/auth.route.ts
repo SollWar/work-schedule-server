@@ -1,9 +1,12 @@
 import express, { Router } from 'express'
 import { WorkerController } from '../controllers/worker.controller.js'
+import { AuthController } from '../controllers/auth.constroller.js'
 
 const authRouter: Router = express.Router()
-const auth = new WorkerController()
+const worker = new WorkerController()
+const auth = new AuthController()
 
-authRouter.get('/login', auth.getByTelegramId)
+authRouter.get('/login', worker.getByTelegramId)
+authRouter.get('/tAuth', auth.telegramAuth)
 
 export default authRouter

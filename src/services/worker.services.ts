@@ -4,6 +4,10 @@ import { TelegramAuth, Worker } from '../models/worker.model.js'
 export class WorkerService {
   private workerRepo = new WorkerRepository()
 
+  async getAll(): Promise<Worker[] | null> {
+    return this.workerRepo.getAll()
+  }
+
   async getById(id: string): Promise<Worker | null> {
     return this.workerRepo.findById(id)
   }

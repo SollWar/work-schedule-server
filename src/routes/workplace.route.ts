@@ -7,5 +7,6 @@ const workplace = new WorkplaceController()
 
 workplaceRouter.get('/workplace', workplace.getById)
 workplaceRouter.get('/workplaces', workplace.getByWorkerId)
+workplaceRouter.get('/allworkplaces', workplace.getAllWorkplaces)
 
 export default workplaceRouter

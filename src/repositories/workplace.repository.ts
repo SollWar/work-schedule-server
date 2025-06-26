@@ -2,6 +2,14 @@ import { pool } from '../config/db.js'
 import { Workplace } from '../models/workplace.model.js'
 
 export class WorkplaceRepository {
+  async getAll(): Promise<Workplace[] | null> {
+    const { rows } = await pool.query<Workplace>(
+      `SELECT *
+        FROM workplaces`
+    )
+    return rows || null
+  }
+
   async findById(id: string): Promise<Workplace | null> {
     const { rows } = await pool.query<Workplace>(
       'SELECT * FROM workplaces WHERE id=$1',

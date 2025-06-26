@@ -5,6 +5,19 @@ import { WorkplaceService } from '../services/workplace.services.js'
 export class WorkplaceController {
   private workplaceService = new WorkplaceService()
 
+  public getAllWorkplaces: RequestHandler = async (req, res) => {
+    try {
+      const workers = await this.workplaceService.getAll()
+      if (workers) {
+        res.json(workers)
+      } else {
+        res.status(400).json({ error: 'workers не найдены' })
+      }
+    } catch (err: any) {
+      res.status(400).json({ error: err.message })
+    }
+  }
+
   public getById: RequestHandler = async (req, res) => {
     try {
       const { id } = req.query

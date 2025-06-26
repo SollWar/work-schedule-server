@@ -7,6 +7,7 @@ const worker = new WorkerController()
 workerRouter.get('/user', worker.getById)
 workerRouter.post('/user/update', worker.updateWorker)
 workerRouter.get('/users', worker.getByWorkplaceId)
+workerRouter.get('/allusers', worker.getAllWorkers)
 workerRouter.get('/telegram', worker.getTelegramIdById)
 
 export default workerRouter

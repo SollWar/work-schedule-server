@@ -2,6 +2,14 @@ import { pool } from '../config/db.js'
 import { TelegramAuth, Worker } from '../models/worker.model.js'
 
 export class WorkerRepository {
+  async getAll(): Promise<Worker[] | null> {
+    const { rows } = await pool.query<Worker>(
+      `SELECT *
+      FROM workers`
+    )
+    return rows || null
+  }
+
   async findById(id: string): Promise<Worker | null> {
     const { rows } = await pool.query<Worker>(
       'SELECT * FROM workers WHERE id=$1',

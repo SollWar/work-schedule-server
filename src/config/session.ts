@@ -11,6 +11,7 @@ export const sessionOptions = {
   password: sessionEnv.password as string,
   cookieName: sessionEnv.cookieName as string,
   cookieOptions: {
+    domain: sessionEnv.domain,
     secure: sessionEnv.nodeEnv === 'production', // в проде — по HTTPS
     httpOnly: true,
     sameSite: 'Strict',
