@@ -1,5 +1,6 @@
 import { pool } from '../config/db.js'
 import { TelegramAuth, Worker } from '../models/worker.model.js'
+import { WorkplaceForSetting } from '../models/workplace.model.js'
 
 export class WorkerRepository {
   async getAll(): Promise<Worker[] | null> {
@@ -36,6 +37,35 @@ export class WorkerRepository {
         WHERE id=$2;`,
         [id, newName]
       )
+      return true
+    } catch (error) {
+      console.error('Error in updateWorkerNameById:', error)
+      return false
+    }
+  }
+
+  async updateWorkerWorkplacesById(
+    workerId: string,
+    workplaces: WorkplaceForSetting[]
+  ): Promise<boolean> {
+    try {
+      for (const wp of workplaces) {
+        if (wp.enabled) {
+          await pool.query(
+            `INSERT INTO workers_workplaces (worker_id, workplace_id, editable)
+              VALUES ($1, $2, $3)
+              ON CONFLICT (worker_id, workplace_id)
+              DO UPDATE SET editable = EXCLUDED.editable;`,
+            [workerId, wp.id, wp.editable ?? 0]
+          )
+        } else {
+          await pool.query(
+            `DELETE FROM workers_workplaces
+            WHERE worker_id = $1 AND workplace_id = $2;`,
+            [workerId, wp.id]
+          )
+        }
+      }
       return true
     } catch (error) {
       console.error('Error in updateWorkerNameById:', error)

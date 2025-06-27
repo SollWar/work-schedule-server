@@ -17,7 +17,7 @@ export class MainController {
         res.status(400).json({ error: 'Недостаточно параметров' })
       } else {
         const worker = await this.workerService.getByTelegramId(telegram_id)
-        if (worker && worker.access_id === 0) {
+        if (worker) {
           const workplaces = await this.workplaceService.getByWorkerId(
             worker.id
           )

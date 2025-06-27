@@ -1,11 +1,19 @@
 import { WorkerRepository } from '../repositories/worker.repository.js'
 import { TelegramAuth, Worker } from '../models/worker.model.js'
+import { WorkplaceForSetting } from '../models/workplace.model.js'
 
 export class WorkerService {
   private workerRepo = new WorkerRepository()
 
   async getAll(): Promise<Worker[] | null> {
     return this.workerRepo.getAll()
+  }
+
+  async updateWorkerWorkplacesById(
+    workerId: string,
+    workplaces: WorkplaceForSetting[]
+  ): Promise<boolean> {
+    return this.workerRepo.updateWorkerWorkplacesById(workerId, workplaces)
   }
 
   async getById(id: string): Promise<Worker | null> {

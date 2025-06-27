@@ -4,3 +4,7 @@ export interface Workplace {
   color: string
   editable?: number
 }
+
+export interface WorkplaceForSetting extends Workplace {
+  enabled?: boolean
+}

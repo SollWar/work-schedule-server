@@ -18,6 +18,19 @@ export class WorkerController {
     }
   }
 
+  public updateWorkerWorkplacesById: RequestHandler = async (req, res) => {
+    try {
+      const { workerId, workplaces } = req.body
+      const result = await this.workerService.updateWorkerWorkplacesById(
+        workerId,
+        workplaces
+      )
+      res.json(result)
+    } catch (err: any) {
+      res.status(400).json({ error: err.message })
+    }
+  }
+
   public getById: RequestHandler = async (req, res) => {
     try {
       const { id } = req.query
