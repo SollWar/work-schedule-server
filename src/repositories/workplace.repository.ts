@@ -28,4 +28,47 @@ export class WorkplaceRepository {
     )
     return rows || null
   }
+
+  async updateWorkplaceById(
+    id: string,
+    updates: {
+      name?: string
+      color?: string
+    }
+  ): Promise<boolean> {
+    try {
+      const fieldsToUpdate = []
+      const values = []
+      let paramIndex = 1
+
+      if (updates.name !== undefined) {
+        fieldsToUpdate.push(`name = $${paramIndex}`)
+        values.push(updates.name)
+        paramIndex++
+      }
+      if (updates.color !== undefined) {
+        fieldsToUpdate.push(`color = $${paramIndex}`)
+        values.push(updates.color)
+        paramIndex++
+      }
+
+      values.push(id)
+
+      if (fieldsToUpdate.length === 0) {
+        return false
+      }
+
+      const query = `
+          UPDATE workplaces
+          SET ${fieldsToUpdate.join(', ')}
+          WHERE id = $${paramIndex}
+        `
+
+      await pool.query(query, values)
+      return true
+    } catch (error) {
+      console.error('Error in updateWorkerById:', error)
+      return false
+    }
+  }
 }

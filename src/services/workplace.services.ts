@@ -15,4 +15,14 @@ export class WorkplaceService {
   async getByWorkerId(worker_id: string): Promise<Workplace[] | null> {
     return this.workplaceRepo.findByWorkerId(worker_id)
   }
+
+  async updateWorkplaceById(
+    id: string,
+    updates: {
+      name?: string
+      color?: string
+    }
+  ): Promise<boolean> {
+    return this.workplaceRepo.updateWorkplaceById(id, updates)
+  }
 }

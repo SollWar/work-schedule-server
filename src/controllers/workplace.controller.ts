@@ -53,4 +53,21 @@ export class WorkplaceController {
       res.status(400).json({ error: err.message })
     }
   }
+
+  public updateWorkplaceById: RequestHandler = async (req, res) => {
+    try {
+      const { id, name, color } = req.body
+      if (typeof id !== 'string') {
+        res.status(400).json({ error: 'Недостаточно параметров' })
+      } else {
+        const result = await this.workplaceService.updateWorkplaceById(id, {
+          name,
+          color,
+        })
+        res.json(result)
+      }
+    } catch (err: any) {
+      res.status(400).json({ error: err.message })
+    }
+  }
 }
