@@ -46,7 +46,7 @@ export class WorkplaceController {
         if (workplaces?.length !== 0) {
           res.json(workplaces)
         } else {
-          res.status(400).json({ error: 'Workplaces не найдены' })
+          res.json([])
         }
       }
     } catch (err: any) {
@@ -66,6 +66,16 @@ export class WorkplaceController {
         })
         res.json(result)
       }
+    } catch (err: any) {
+      res.status(400).json({ error: err.message })
+    }
+  }
+
+  public createWorkplace: RequestHandler = async (req, res) => {
+    try {
+      const { name, color } = req.body
+      const result = await this.workplaceService.createWorplaceById(name, color)
+      res.json(result)
     } catch (err: any) {
       res.status(400).json({ error: err.message })
     }

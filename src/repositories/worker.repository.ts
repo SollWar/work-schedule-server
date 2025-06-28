@@ -19,6 +19,42 @@ export class WorkerRepository {
     return rows[0] || null
   }
 
+  async deleteWorkerById(id: string): Promise<boolean> {
+    try {
+      await pool.query('DELETE FROM workers WHERE id=$1', [id])
+      return true
+    } catch (error) {
+      console.error('Error in deleteWorkerById:', error)
+      return false
+    }
+  }
+
+  async createWorker(
+    id: string,
+    name: string,
+    color: string,
+    access_id: string,
+    telegram_id: string
+  ): Promise<boolean> {
+    try {
+      await pool.query(`INSERT INTO workers VALUES ($1, $2, $3, $4);`, [
+        id,
+        name,
+        color,
+        access_id,
+      ])
+      await pool.query(`INSERT INTO workers_telegram_auth VALUES ($1,$2);`, [
+        id,
+        telegram_id,
+      ])
+
+      return true
+    } catch (error) {
+      console.error('Error in updateWorkerById:', error)
+      return false
+    }
+  }
+
   async findTelegramIdById(id: string): Promise<TelegramAuth[] | null> {
     const { rows } = await pool.query<TelegramAuth>(
       `SELECT telegram_id

@@ -29,6 +29,24 @@ export class WorkplaceRepository {
     return rows || null
   }
 
+  async createWorplace(
+    id: string,
+    name: string,
+    color: string
+  ): Promise<boolean> {
+    try {
+      await pool.query(`INSERT INTO workplaces VALUES ($1, $2, $3);`, [
+        id,
+        name,
+        color,
+      ])
+      return true
+    } catch (error) {
+      console.error('Error in updateWorkerById:', error)
+      return false
+    }
+  }
+
   async updateWorkplaceById(
     id: string,
     updates: {

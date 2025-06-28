@@ -1,8 +1,13 @@
+import { customAlphabet } from 'nanoid'
 import { Workplace } from '../models/workplace.model.js'
 import { WorkplaceRepository } from '../repositories/workplace.repository.js'
 
 export class WorkplaceService {
   private workplaceRepo = new WorkplaceRepository()
+  private nanoid = customAlphabet(
+    '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    12
+  )
 
   async getAll(): Promise<Workplace[] | null> {
     return this.workplaceRepo.getAll()
@@ -24,5 +29,10 @@ export class WorkplaceService {
     }
   ): Promise<boolean> {
     return this.workplaceRepo.updateWorkplaceById(id, updates)
+  }
+
+  async createWorplaceById(name: string, color: string): Promise<boolean> {
+    const id = this.nanoid()
+    return this.workplaceRepo.createWorplace(id, name, color)
   }
 }

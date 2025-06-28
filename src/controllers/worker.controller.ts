@@ -95,6 +95,35 @@ export class WorkerController {
     }
   }
 
+  public deleteWorker: RequestHandler = async (req, res) => {
+    try {
+      const { id } = req.body
+      if (typeof id !== 'string') {
+        res.status(400).json({ error: 'Недостаточно параметров' })
+      } else {
+        const result = await this.workerService.deleteWorkerById(id)
+        res.json(result)
+      }
+    } catch (err: any) {
+      res.status(400).json({ error: err.message })
+    }
+  }
+
+  public createWorker: RequestHandler = async (req, res) => {
+    try {
+      const { name, color, access_id, telegram_id } = req.body
+      const result = await this.workerService.createWorker(
+        name,
+        color,
+        access_id,
+        telegram_id
+      )
+      res.json(result)
+    } catch (err: any) {
+      res.status(400).json({ error: err.message })
+    }
+  }
+
   public getTelegramIdById: RequestHandler = async (req, res) => {
     try {
       const { id } = req.query
