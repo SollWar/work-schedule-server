@@ -18,18 +18,34 @@ export class MainController {
       } else {
         const worker = await this.workerService.getByTelegramId(telegram_id)
         if (worker) {
-          const workplaces = await this.workplaceService.getByWorkerId(
-            worker.id
-          )
-          if (workplaces) {
-            const mainData: MainData = {
-              user: worker,
-              availableWorkers: [worker],
-              availableWorkplaces: workplaces,
+          if (worker.access_id === 1) {
+            const workers = await this.workerService.getAll()
+            const workplaces = await this.workplaceService.getAll()
+            if (workers && workplaces) {
+              workers.sort((a, b) => a.name.localeCompare(b.name))
+              workplaces.sort((a, b) => a.name.localeCompare(b.name))
+              const mainData: MainData = {
+                user: worker,
+                availableWorkers: workers,
+                availableWorkplaces: workplaces,
+              }
+              res.json(mainData)
             }
-            res.json(mainData)
           } else {
-            res.status(400).json({ error: 'Workplaces не найдены' })
+            const workplaces = await this.workplaceService.getByWorkerId(
+              worker.id
+            )
+            if (workplaces) {
+              workplaces.sort((a, b) => a.name.localeCompare(b.name))
+              const mainData: MainData = {
+                user: worker,
+                availableWorkers: [worker],
+                availableWorkplaces: workplaces,
+              }
+              res.json(mainData)
+            } else {
+              res.status(400).json({ error: 'Workplaces не найдены' })
+            }
           }
         } else {
           res.status(400).json({ error: 'Worker не найден' })
