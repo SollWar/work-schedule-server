@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: z3rg
+      POSTGRES_PASSWORD: 909242aA
+      POSTGRES_DB: test
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+  new-schedule-server:
+    image: new-schedule-server
+    container_name: new-schedule-server
+    ports:
+      - "3001:3001"
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+

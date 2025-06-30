@@ -14,7 +14,7 @@ export const sessionOptions = {
     domain: sessionEnv.domain,
     secure: sessionEnv.nodeEnv === 'production', // в проде — по HTTPS
     httpOnly: true,
-    sameSite: 'Strict',
+    sameSite: 'None', //Lax если Nginx на том-же VPS
     path: '/',
     maxAge: 60 * 60 * 24 * 7,
   },

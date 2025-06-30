@@ -11,8 +11,8 @@ export class MainController {
   public getMainDataFromTelegramId: RequestHandler = async (req, res) => {
     try {
       const session = await getSession(req, res)
-      //const { telegram_id } = req.query
-      const telegram_id = session.id
+      const telegram_id = String(session.id)
+      console.log(telegram_id)
       if (typeof telegram_id !== 'string') {
         res.status(400).json({ error: 'Недостаточно параметров' })
       } else {

@@ -7,6 +7,6 @@ const worker = new WorkerController()
 const auth = new AuthController()
 
 authRouter.get('/login', worker.getByTelegramId)
-authRouter.get('/login/telegram', auth.telegramAuth)
+authRouter.post('/login/telegram', auth.telegramAuth)
 
 export default authRouter

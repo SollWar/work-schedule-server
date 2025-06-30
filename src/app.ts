@@ -11,13 +11,13 @@ import scheduleRouter from './routes/schedule.route.js'
 import mainRouter from './routes/main.route.js'
 
 const PORT = Number(process.env.PORT) || 3000
-const allowedOrigins = [corsEnv.clientOrigin]
+const allowedOrigins = corsEnv.clientOrigin
 
 export async function bootstrap() {
   const app = express()
   app.use(
     cors({
-      origin: allowedOrigins as string[],
+      origin: allowedOrigins,
       credentials: true,
     })
   )
