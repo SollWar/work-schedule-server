@@ -21,6 +21,7 @@ export class WorkerController {
   public updateWorkerWorkplacesById: RequestHandler = async (req, res) => {
     try {
       const { workerId, workplaces } = req.body
+      console.log(workerId, workplaces)
       const result = await this.workerService.updateWorkerWorkplacesById(
         workerId,
         workplaces

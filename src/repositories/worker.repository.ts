@@ -35,7 +35,7 @@ export class WorkerRepository {
     color: string,
     access_id: string,
     telegram_id: string
-  ): Promise<boolean> {
+  ): Promise<string> {
     try {
       await pool.query(`INSERT INTO workers VALUES ($1, $2, $3, $4);`, [
         id,
@@ -48,10 +48,10 @@ export class WorkerRepository {
         telegram_id,
       ])
 
-      return true
+      return id
     } catch (error) {
       console.error('Error in updateWorkerById:', error)
-      return false
+      return ''
     }
   }
 

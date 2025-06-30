@@ -8,7 +8,7 @@ workplaceRouter.get('/workplace', workplace.getById)
 workplaceRouter.post('/workplace/update', workplace.updateWorkplaceById)
 workplaceRouter.post('/workplace/create', workplace.createWorkplace)
 workplaceRouter.delete('/workplace/delete', workplace.deleteWorkplaceById)
-workplaceRouter.get('/workplaces', workplace.getByWorkerId)
-workplaceRouter.get('/allworkplaces', workplace.getAllWorkplaces)
+workplaceRouter.get('/workplace/user', workplace.getByWorkerId)
+workplaceRouter.get('/workplace/all', workplace.getAllWorkplaces)
 
 export default workplaceRouter

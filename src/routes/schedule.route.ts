@@ -5,8 +5,8 @@ import { ScheduleController } from '../controllers/schedule.controller.js'
 const scheduleRouter: Router = express.Router()
 const schedule = new ScheduleController()
 
-scheduleRouter.get('/schedule', schedule.getByWorkerId)
-scheduleRouter.get('/schedules', schedule.getByWorkplaceId)
-scheduleRouter.post('/up_schedule', schedule.updateSchedule)
+scheduleRouter.get('/schedule/worker', schedule.getByWorkerId)
+scheduleRouter.get('/schedule/workplace', schedule.getByWorkplaceId)
+scheduleRouter.post('/schedule/update', schedule.updateSchedule)
 
 export default scheduleRouter

@@ -4,13 +4,16 @@ import { WorkerController } from '../controllers/worker.controller.js'
 const workerRouter: Router = express.Router()
 const worker = new WorkerController()
 
-workerRouter.get('/user', worker.getById)
-workerRouter.post('/user/update', worker.updateWorker)
-workerRouter.post('/user/create', worker.createWorker)
-workerRouter.delete('/user/delete', worker.deleteWorker)
-workerRouter.post('/user/update/workplaces', worker.updateWorkerWorkplacesById)
-workerRouter.get('/users', worker.getByWorkplaceId)
-workerRouter.get('/allusers', worker.getAllWorkers)
-workerRouter.get('/telegram', worker.getTelegramIdById)
+workerRouter.get('/worker', worker.getById)
+workerRouter.post('/worker/update', worker.updateWorker)
+workerRouter.post('/worker/create', worker.createWorker)
+workerRouter.delete('/worker/delete', worker.deleteWorker)
+workerRouter.post(
+  '/worker/update/workplaces',
+  worker.updateWorkerWorkplacesById
+)
+workerRouter.get('/worker/workplace', worker.getByWorkplaceId)
+workerRouter.get('/worker/all', worker.getAllWorkers)
+workerRouter.get('/worker/telegram', worker.getTelegramIdById)
 
 export default workerRouter

@@ -46,7 +46,7 @@ export class WorkerService {
     color: string,
     access_id: string,
     telegram_id: string
-  ): Promise<boolean> {
+  ): Promise<string> {
     const id = this.nanoid()
     return this.workerRepo.createWorker(id, name, color, access_id, telegram_id)
   }
