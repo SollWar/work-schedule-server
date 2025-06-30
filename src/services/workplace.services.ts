@@ -20,6 +20,9 @@ export class WorkplaceService {
   async getByWorkerId(worker_id: string): Promise<Workplace[] | null> {
     return this.workplaceRepo.findByWorkerId(worker_id)
   }
+  async deleteWorkplaceById(id: string): Promise<boolean> {
+    return this.workplaceRepo.deleteWorkplaceById(id)
+  }
 
   async updateWorkplaceById(
     id: string,

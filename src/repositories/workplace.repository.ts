@@ -29,6 +29,16 @@ export class WorkplaceRepository {
     return rows || null
   }
 
+  async deleteWorkplaceById(id: string): Promise<boolean> {
+    try {
+      await pool.query('DELETE FROM workplaces WHERE id=$1', [id])
+      return true
+    } catch (error) {
+      console.error('Error in deleteWorkerById:', error)
+      return false
+    }
+  }
+
   async createWorplace(
     id: string,
     name: string,

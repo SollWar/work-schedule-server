@@ -36,6 +36,24 @@ export class WorkplaceController {
     }
   }
 
+  public deleteWorkplaceById: RequestHandler = async (req, res) => {
+    try {
+      const { id } = req.body
+      if (typeof id !== 'string') {
+        res.status(400).json({ error: 'Недостаточно параметров' })
+      } else {
+        const result = await this.workplaceService.deleteWorkplaceById(id)
+        if (result) {
+          res.json({ message: 'Workplace удален' })
+        } else {
+          res.status(400).json({ error: 'Не удалось удалить Workplace' })
+        }
+      }
+    } catch (err: any) {
+      res.status(400).json({ error: err.message })
+    }
+  }
+
   public getByWorkerId: RequestHandler = async (req, res) => {
     try {
       const { worker_id } = req.query
