@@ -33,6 +33,13 @@ CREATE TABLE workers_workplaces (
   PRIMARY KEY (worker_id, workplace_id)
 );
 
+CREATE TABLE requests (
+  telegram_id TEXT PRIMARY KEY,
+  worker_name TEXT NOT NULL,
+  workplace_name TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT now()
+);
+
 
 -- insert
 INSERT INTO workers VALUES ('C468ImhehUC6', 'Никита', '#4CAF50', '1');
