@@ -9,6 +9,7 @@ import workerRouter from './routes/worker.route.js'
 import workplaceRouter from './routes/workplace.route.js'
 import scheduleRouter from './routes/schedule.route.js'
 import mainRouter from './routes/main.route.js'
+import requestRouter from './routes/request.route.js'
 
 const PORT = Number(process.env.PORT) || 3000
 const allowedOrigins = corsEnv.clientOrigin
@@ -29,6 +30,7 @@ export async function bootstrap() {
   app.use('/api', workplaceRouter)
   app.use('/api', scheduleRouter)
   app.use('/api', mainRouter)
+  app.use('/api', requestRouter)
 
   const httpServer = http.createServer(app)
 

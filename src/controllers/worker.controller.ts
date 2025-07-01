@@ -9,6 +9,7 @@ export class WorkerController {
     try {
       const workers = await this.workerService.getAll()
       if (workers) {
+        workers.sort((a, b) => a.name.localeCompare(b.name))
         res.json(workers)
       } else {
         res.status(400).json({ error: 'workers не найдены' })
@@ -53,7 +54,6 @@ export class WorkerController {
   public getByTelegramId: RequestHandler = async (req, res) => {
     try {
       const session = await getSession(req, res)
-      //const { telegram_id } = req.query
       const telegram_id = session.id
       if (typeof telegram_id !== 'string') {
         res.status(400).json({ error: 'Недостаточно параметров' })
@@ -69,13 +69,6 @@ export class WorkerController {
       res.status(400).json({ error: err.message })
     }
   }
-
-  // id: string,
-  //   updates: {
-  //     name?: string
-  //     color?: string
-  //     access_id?: number
-  //   }
 
   public updateWorker: RequestHandler = async (req, res) => {
     try {
@@ -151,6 +144,7 @@ export class WorkerController {
       } else {
         const workers = await this.workerService.getByWorkplaceId(workplace_id)
         if (workers) {
+          workers.sort((a, b) => a.name.localeCompare(b.name))
           res.json(workers)
         } else {
           res.status(400).json({ error: 'Worker не найден' })

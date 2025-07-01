@@ -9,6 +9,7 @@ export class WorkplaceController {
     try {
       const workers = await this.workplaceService.getAll()
       if (workers) {
+        workers.sort((a, b) => a.name.localeCompare(b.name))
         res.json(workers)
       } else {
         res.status(400).json({ error: 'workers не найдены' })
@@ -61,7 +62,8 @@ export class WorkplaceController {
         res.status(400).json({ error: 'Недостаточно параметров' })
       } else {
         const workplaces = await this.workplaceService.getByWorkerId(worker_id)
-        if (workplaces?.length !== 0) {
+        if (workplaces && workplaces.length !== 0) {
+          workplaces.sort((a, b) => a.name.localeCompare(b.name))
           res.json(workplaces)
         } else {
           res.json([])

@@ -2,6 +2,7 @@ import { RequestHandler } from 'express'
 import { WorkerService } from '../services/worker.services.js'
 import { WorkplaceService } from '../services/workplace.services.js'
 import { MainData } from '../models/main.model.js'
+import { Worker } from '../models/worker.model.js'
 import { getSession } from '../config/session.js'
 
 export class MainController {
@@ -22,11 +23,22 @@ export class MainController {
             const workers = await this.workerService.getAll()
             const workplaces = await this.workplaceService.getAll()
             if (workers && workplaces) {
-              workers.sort((a, b) => a.name.localeCompare(b.name))
+              const results = await Promise.all(
+                workers.map(async (val) => {
+                  const workplace = await this.workplaceService.getByWorkerId(
+                    val.id
+                  )
+                  return workplace?.length !== 0 ? val : null
+                })
+              )
+
+              const filtWorkers = results.filter((w): w is Worker => w !== null)
+
+              filtWorkers.sort((a, b) => a.name.localeCompare(b.name))
               workplaces.sort((a, b) => a.name.localeCompare(b.name))
               const mainData: MainData = {
                 user: worker,
-                availableWorkers: workers,
+                availableWorkers: filtWorkers,
                 availableWorkplaces: workplaces,
               }
               res.json(mainData)
