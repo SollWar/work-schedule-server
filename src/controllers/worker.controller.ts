@@ -53,8 +53,7 @@ export class WorkerController {
 
   public getByTelegramId: RequestHandler = async (req, res) => {
     try {
-      const session = await getSession(req, res)
-      const telegram_id = session.id
+      const { telegram_id } = req.query
       if (typeof telegram_id !== 'string') {
         res.status(400).json({ error: 'Недостаточно параметров' })
       } else {
@@ -126,7 +125,7 @@ export class WorkerController {
       } else {
         const telegramIds = await this.workerService.findTelegramIdById(id)
         if (telegramIds) {
-          res.json(telegramIds)
+          res.json(telegramIds[0].telegram_id)
         } else {
           res.status(400).json({ error: 'Worker не найден' })
         }
