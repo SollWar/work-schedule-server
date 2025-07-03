@@ -27,7 +27,6 @@ export class RequestController {
         worker_name,
         workplace_name
       )
-      console.log(telegram_id, worker_name, workplace_name, result)
       res.json(result)
     } catch (err: any) {
       res.status(400).json({ error: err.message })
@@ -37,7 +36,6 @@ export class RequestController {
   public deleteRequest: RequestHandler = async (req, res) => {
     try {
       const { telegram_id } = req.body
-      console.log(telegram_id)
       if (typeof telegram_id !== 'string') {
         res.status(400).json({ error: 'Недостаточно параметров' })
       } else {

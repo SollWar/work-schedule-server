@@ -13,7 +13,6 @@ export class MainController {
     try {
       const session = await getSession(req, res)
       const telegram_id = String(session.id)
-      console.log(telegram_id)
       if (typeof telegram_id !== 'string') {
         res.status(400).json({ error: 'Недостаточно параметров' })
       } else {
