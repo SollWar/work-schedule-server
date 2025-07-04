@@ -3,7 +3,7 @@ import { WorkerService } from '../services/worker.services.js'
 import { WorkplaceService } from '../services/workplace.services.js'
 import { MainData } from '../models/main.model.js'
 import { Worker } from '../models/worker.model.js'
-import { getSession } from '../config/session.js'
+import { decrypt } from '../utils/cryptoUtils.js'
 
 export class MainController {
   private workerService = new WorkerService()
@@ -11,8 +11,11 @@ export class MainController {
 
   public getMainDataFromTelegramId: RequestHandler = async (req, res) => {
     try {
-      const session = await getSession(req, res)
-      const telegram_id = String(session.id)
+      const authHeader = req.headers['authorization']
+      // const session = await getSession(req, res)
+      const decryptedHeader = await decrypt(authHeader as string)
+
+      const telegram_id = String(decryptedHeader)
       if (typeof telegram_id !== 'string') {
         res.status(400).json({ error: 'Недостаточно параметров' })
       } else {

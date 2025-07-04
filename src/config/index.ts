@@ -20,6 +20,10 @@ export const dbEnv = {
   port: getEnvNumber('DB_PORT') || 5432,
 }
 
+export const cryptoEnv = {
+  password: process.env.SESSION_PASSWORD,
+}
+
 export const telegramEnv = {
   botToken: process.env.TELEGRAM_BOT_TOKEN,
 }

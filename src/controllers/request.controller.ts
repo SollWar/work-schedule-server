@@ -8,9 +8,18 @@ export class RequestController {
   getAllRequests: RequestHandler = async (req, res) => {
     try {
       const requests = await this.requestServices.getAll()
+      console.log(requests)
       if (requests) {
-        requests.sort((a, b) => a.created_at.localeCompare(b.created_at))
-        res.json(requests)
+        if (requests.length > 1) {
+          requests.sort(
+            (a, b) =>
+              new Date(a.created_at).getTime() -
+              new Date(b.created_at).getTime()
+          )
+          res.json(requests)
+        } else {
+          res.json(requests)
+        }
       } else {
         res.status(400).json({ error: 'workers не найдены' })
       }
@@ -22,6 +31,7 @@ export class RequestController {
   public createRequest: RequestHandler = async (req, res) => {
     try {
       const { telegram_id, worker_name, workplace_name } = req.body
+      console.log(telegram_id, worker_name, workplace_name)
       const result = await this.requestServices.create(
         telegram_id,
         worker_name,

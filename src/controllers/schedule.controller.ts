@@ -1,8 +1,6 @@
 import { RequestHandler } from 'express'
-import { Schedule } from '../models/schedule.model.js'
 import { ScheduleService } from '../services/schedule.services.js'
 import { WorkerService } from '../services/worker.services.js'
-import { getSession } from '../config/session.js'
 
 export class ScheduleController {
   private scheduleService = new ScheduleService()
@@ -11,15 +9,12 @@ export class ScheduleController {
   public getByWorkerId: RequestHandler = async (req, res) => {
     try {
       const { worker_id, year, month } = req.query
-      const session = await getSession(req, res)
       if (
         typeof worker_id !== 'string' ||
         typeof year !== 'string' ||
         typeof month !== 'string'
       ) {
         res.status(400).json({ error: 'Недостаточно параметров' })
-      } else if (!session.id) {
-        console.log('Нет куки')
       } else {
         const yearNum = Number(year)
         const monthNum = Number(month)
